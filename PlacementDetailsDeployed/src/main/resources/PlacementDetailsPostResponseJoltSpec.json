@@ -1,9 +1,0 @@
-[
-	{
-		"operation": "shift",
-		"spec": {
-				"traineeId": "placement.traineeId",
-				"placementId": "placement.placementId"
-		}
-	}
-]
