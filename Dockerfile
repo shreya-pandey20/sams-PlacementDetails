@@ -1,3 +1,8 @@
+FROM maven:3.6.0-jdk-8 as builder
+WORKDIR /app
+COPY . .
+RUN mvn dependency:resolve
+RUN mvn clean install
 FROM openjdk:11
 WORKDIR /app
 EXPOSE 8080
