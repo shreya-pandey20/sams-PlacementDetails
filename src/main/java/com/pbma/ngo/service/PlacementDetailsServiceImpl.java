@@ -1,6 +1,9 @@
 package com.pbma.ngo.service;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,11 +38,33 @@ public class PlacementDetailsServiceImpl implements PlacementDetailsService {
 
 		// jolt for request json - flatten to map to entity
 		String transformedPlacementRequest = PlacementDetailsUtils.transformRequest(placementDetailsRequest,
-				placementDetailsConfig.getPlacementDetailsRequestJoltSpec());
+				placementDetailsConfig.getPlacementDetailsPostRequestJoltSpec());
 		placementDetailsLogger.debug("Save Placement Details transformed request : {}", transformedPlacementRequest);
+
+		//the trainee id extraction
+		JSONObject transformedPlacementRequestJsonObject = new JSONObject(transformedPlacementRequest);
+		Long traineeId = transformedPlacementRequestJsonObject.getLong(Constants.TRAINEE_ID);		
+
+		List<Placement> allPlacements = placementRepository.findAllByTraineeIdOrderByPlacementIdDesc(traineeId);
+		Long placementId = (long) 1;
+		if (allPlacements != null && !allPlacements.isEmpty()) 
+		{
+		placementId = allPlacements.get(0).getPlacementId() + 1;
+		}
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		Placement requestPlacementObject = objectMapper.readValue(transformedPlacementRequest, Placement.class);
+
+		requestPlacementObject.setPlacementId(placementId);
+		
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear(Calendar.ZONE_OFFSET);
+
+		Timestamp timestamp = new Timestamp(calendar.getTimeInMillis());
+		requestPlacementObject.setCreationTimestamp(timestamp);
+		requestPlacementObject.setLastUpdateTimestamp(timestamp);
+
 		System.out.println(requestPlacementObject);
 		Placement placement = placementRepository.save(requestPlacementObject);
 		placementDetailsLogger.info("Placement Details inserted in database successfully");
@@ -131,5 +156,60 @@ public class PlacementDetailsServiceImpl implements PlacementDetailsService {
 	
 	}
 
-	
+	@Override
+	public ResponseEntity<String> updatePlacementDetails(final long traineeId,final long placementId, final String placementDetailsRequest)throws Exception
+	{
+		// add trainee id received as uri param in request body
+		//JSONObject placementDetailsRequestJsonObject = new JSONObject(placementDetailsRequest);
+		//placementDetailsRequestJsonObject.getJSONObject(Constants.PLACEMENT).put(Constants.TRAINEE_ID, traineeId);
+
+		// PlacementDetailsId compositeKey = new PlacementDetailsId(placementId, traineeId);
+        // Optional<Placement> optionalPlacementDetails = placementRepository.findById(compositeKey);
+
+		// create update request and save details
+		String transformedPlacementRequest = PlacementDetailsUtils.transformRequest(
+				placementDetailsRequest,placementDetailsConfig.getPlacementDetailsPutRequestJoltSpec());
+		placementDetailsLogger.debug("Update Placement Details transformed request : {}", transformedPlacementRequest);
+
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		Placement requestPlacementObject = objectMapper.readValue(transformedPlacementRequest, Placement.class);
+
+		System.out.println("trainee id request :"+ requestPlacementObject.getTraineeId()+"  trainee id url :" + traineeId);
+		System.out.println("placement id request :"+ requestPlacementObject.getPlacementId()+"  placement id url: " + placementId);
+
+		if( (!requestPlacementObject.getTraineeId().equals(traineeId))  || (!requestPlacementObject.getPlacementId().equals(placementId))){
+			placementDetailsLogger.info("Placement Id and Trainee Id mismatch");
+			throw new Exception();
+
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear(Calendar.ZONE_OFFSET);
+		Timestamp timestamp = new Timestamp(calendar.getTimeInMillis());
+		requestPlacementObject.setLastUpdateTimestamp(timestamp);
+
+		placementRepository.save(requestPlacementObject);
+		placementDetailsLogger.info("Placement Details updated in database successfully");
+
+		// retrieve updated details from database
+		String response = this.getPlacementDetailsByTraineeIdAndPlacementId(traineeId,placementId).getBody();
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<String> getPlacementDetailsByTraineeIdAndPlacementId(long traineeId, long placementId)
+			throws Exception {
+		Placement placement = placementRepository.findByTraineeIdAndPlacementId(traineeId, placementId);
+		placementDetailsLogger.info("All Placement Details retrieved from database successfully");
+
+		String placementResponse = new JSONObject(placement).toString(Constants.JSON_OBJECT_INDENTATION_FACTOR);
+
+		String response = new JSONObject(PlacementDetailsUtils.transformRequest(placementResponse,
+				placementDetailsConfig.getPlacementDetailsGetResponseJoltSpec()))
+				.toString(Constants.JSON_OBJECT_INDENTATION_FACTOR);
+		placementDetailsLogger.debug("Get Placement Details transformed response : {}", response);
+
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+
+	}
 }

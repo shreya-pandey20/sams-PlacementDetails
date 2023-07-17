@@ -11,11 +11,11 @@
 	</parent>
 	<groupId>com.pbma.ngo</groupId>
 	<artifactId>PlacementDetails</artifactId>
-	<version>1.0.0</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>PlacementDetails</name>
 	<description>Student Database Placement Details Service</description>
 	<properties>
-		<java.version>11</java.version>
+		<!-- <java.version>11</java.version> -->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -60,7 +60,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.20</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -112,8 +111,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-+                    <mainClass>com.pbma.ngo.TrainingDetailsApplication.java</mainClass>
-+                </configuration>				
+					<mainClass>com.pbma.ngo.PlacementDetailsApplication.java</mainClass>
+				</configuration>				
 			</plugin>
 		</plugins>
 	</build>

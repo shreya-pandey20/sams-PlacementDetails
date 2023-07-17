@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PlacementDetailsApplication<PlacementDetails>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.pbma.ngo.PlacementDetailsApplication",
+            "projectName": "PlacementDetails",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

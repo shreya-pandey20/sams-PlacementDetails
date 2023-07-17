@@ -6,17 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbma.ngo.service.PlacementDetailsService;
 
-@RestController
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 public class PlacementDetailsController {
 
 	@Autowired
@@ -32,7 +34,7 @@ public class PlacementDetailsController {
 		return responseEntity;
 	}
 
-	@GetMapping(value = "/placements/{traineeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/trainees/{traineeId}/placements", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> viewPlacementDetails(@PathVariable("traineeId") Long traineeId) throws Exception {
 		placementDetailsLogger.info("Received request to View Placement Details");
 		ResponseEntity<String> responseEntity = placementDetailsService.getPlacementDetails(traineeId);
@@ -48,11 +50,20 @@ public class PlacementDetailsController {
 		return responseEntity;
 	}
 
-	@DeleteMapping(value="/placements/{placementId}")
-	public ResponseEntity<String> deletePlacementDetails(@PathVariable("placementId") Long placementId) throws Exception {
-		placementDetailsLogger.info("Received request to Delete  Placement Details");
-		ResponseEntity<String> responseEntity = placementDetailsService.deleteByPlacementId(placementId);
-		placementDetailsLogger.info("Completed request to delete  Placement Details");
+	// @DeleteMapping(value="/placements/{placementId}")
+	// public ResponseEntity<String> deletePlacementDetails(@PathVariable("placementId") Long placementId) throws Exception {
+	// 	placementDetailsLogger.info("Received request to Delete  Placement Details");
+	// 	ResponseEntity<String> responseEntity = placementDetailsService.deleteByPlacementId(placementId);
+	// 	placementDetailsLogger.info("Completed request to delete  Placement Details");
+	// 	return responseEntity;
+	// }
+
+	@PutMapping(value = "/trainees/{traineeId}/placements/{placementId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> editPlacementDetails(@PathVariable("traineeId") Long traineeId,@PathVariable("placementId") Long placementId, @RequestBody String placementDetailsRequest) throws Exception {
+		placementDetailsLogger.info("Received request to Edit Placement Details");
+		ResponseEntity<String> responseEntity = placementDetailsService.updatePlacementDetails(traineeId, placementId, placementDetailsRequest);
+		placementDetailsLogger.info("Completed request to Edit Placement Details");
 		return responseEntity;
 	}
+
 }

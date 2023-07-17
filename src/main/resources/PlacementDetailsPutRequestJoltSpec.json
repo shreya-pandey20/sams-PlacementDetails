@@ -1,0 +1,33 @@
+[
+	{
+		"operation": "shift",
+		"spec": {
+			"placement":{
+	
+				"placementId": "placementId",
+				"traineeId" : "traineeId",
+				"placementDetails":{
+					"placementStatus":"placementStatus",
+					"dateOfPlacement":"dateOfPlacement",
+					"placementSector":"placementSector",
+					"sectorNameIfDifferent":"sectorNameIfDifferent",
+					"reasonOfUnemployment":"reasonOfUnemployment",
+					"jobRole":"jobRole",
+					"employmentMethod":"employmentMethod",
+					"employerName":"employerName",
+					"nameOfPointPersonFromEmployer":"nameOfPointPersonFromEmployer",
+					"contactNumberOfPointPerson":"contactNumberOfPointPerson",
+					"employerEmailId":"employerEmailId",
+					"locationOfEmployment":"locationOfEmployment",
+					"monthlySalary":"monthlySalary",
+					"annualCtc":"annualCtc",
+					"lastUpdateTimestamp":"lastUpdateTimestamp",
+					"creationTimestamp": "creationTimestamp",
+					"comments":"comments"
+				}
+			}
+			
+			
+		}
+	}
+]

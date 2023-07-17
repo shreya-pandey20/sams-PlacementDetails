@@ -8,6 +8,7 @@
 			"dateOfPlacement":"placement.placementDetails.dateOfPlacement",
 			"placementSector":"placement.placementDetails.placementSector",
 			"sectorNameIfDifferent":"placement.placementDetails.sectorNameIfDifferent",
+			"reasonOfUnemployment":"placement.placementDetails.reasonOfUnemployment",
 			"jobRole":"placement.placementDetails.jobRole",
 			"employmentMethod":"placement.placementDetails.employmentMethod",
 			"employerName":"placement.placementDetails.employerName",
@@ -15,9 +16,11 @@
 			"contactNumberOfPointPerson":"placement.placementDetails.contactNumberOfPointPerson",
 			"employerEmailId":"placement.placementDetails.employerEmailId",
 			"locationOfEmployment":"placement.placementDetails.locationOfEmployment",
+			"monthlySalary":"placement.placementDetails.monthlySalary",
 			"annualCtc":"placement.placementDetails.annualCtc",
-			"lastUpdatedTimestamp":"placement.placementDetails.lastUpdatedTimestamp",
-			"creationTimestamp": "placement.placementDetails.creationTimestamp"
+			"lastUpdateTimestamp":"placement.placementDetails.lastUpdateTimestamp",
+			"creationTimestamp": "placement.placementDetails.creationTimestamp",
+			"comments":"placement.placementDetails.comments"
 			
 		}
 	}

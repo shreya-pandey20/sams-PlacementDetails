@@ -15,9 +15,10 @@ public class ApplicationYaml {
 
 	@Data
 	public static class Jolt {
-		private String placementDetailsRequestJoltSpec;
+		private String placementDetailsPostRequestJoltSpec;
 		private String placementDetailsGetResponseJoltSpec;
 		private String placementDetailsPostResponseJoltSpec;
+		private String placementDetailsPutRequestJoltSpec;
 	}
 	
 	

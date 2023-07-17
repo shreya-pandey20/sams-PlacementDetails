@@ -15,8 +15,8 @@ public class PlacementDetailsConfig {
 	private ApplicationYaml applicationYaml;
 	
 	@Bean
-	public List<Object> getPlacementDetailsRequestJoltSpec() {
-		return JsonUtils.classpathToList(applicationYaml.getJolt().getPlacementDetailsRequestJoltSpec());
+	public List<Object> getPlacementDetailsPostRequestJoltSpec() {
+		return JsonUtils.classpathToList(applicationYaml.getJolt().getPlacementDetailsPostRequestJoltSpec());
 	}
 	
 	@Bean
@@ -28,5 +28,14 @@ public class PlacementDetailsConfig {
 	public List<Object> getPlacementDetailsPostResponseJoltSpec() {
 		return JsonUtils.classpathToList(applicationYaml.getJolt().getPlacementDetailsPostResponseJoltSpec());
 	}
+
+
+	@Bean
+	public List<Object> getPlacementDetailsPutRequestJoltSpec(){
+		return JsonUtils.classpathToList(applicationYaml.getJolt().getPlacementDetailsPutRequestJoltSpec());
+	}
+ 
+
+
 	
 }
